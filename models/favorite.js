@@ -12,12 +12,14 @@ module.exports = function(sequelize, DataTypes) {
 
         user_id: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            unique: 'favorite_unique'
         },
 
         artist_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: 'favorite_unique'
         }
 
     }, {

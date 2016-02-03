@@ -11,8 +11,4 @@ module.exports = function(server, controllers) {
         }
     });
 
-    return {
-        name: 'POST_user_login'
-    }
-
 };

@@ -6,12 +6,12 @@ var Hapi = require('hapi');
 /* Sequelize db */
 var db = require('./models');
 
-var auth = require('./lib/auth')();
+var Auth = require('./lib/Auth')();
 
 /* Hapi server */
 var server = new Hapi.Server({
     debug: {
-        request: []
+        request: ['error']
     }
 });
 
@@ -29,20 +29,16 @@ server.register(require('hapi-auth-jwt2'), function(err) {
         verifyOptions: {
             algorithms: ['HS256']
         },
-        validateFunc: auth.requestValidationFunction
+        validateFunc: Auth.tokenValidator
     });
 
 });
 
-
-
 server.on('response', function (request) {
-
     console.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.url.path + ' --> ' + request.response.statusCode);
-
 });
 
-var controllers = require('./controllers')(db);
+var controllers = require('./controllers')(db, Auth);
 
 var routes = require('./routes')(server, controllers);
 

@@ -31,17 +31,13 @@ module.exports = function(db) {
 
                 } else {
 
-                    /* set auth header */
-                    /** TODO: refactor this out of here */
-                    var jwt = require('jsonwebtoken');
-                    var env = process.env.NODE_ENV || 'development';
-                    var config = require('../config/config.json')[env];
-                    var obj = {
+                    /* give auth token */
+                    var Auth = require('../lib/auth')();
+
+                    var token = Auth.tokenSigner({
                         id: user.id,
                         username: user.username
-                    }
-                    var token = jwt.sign(obj, config.auth.key);
-
+                    });
 
                     reply({
                         status: "ok",
@@ -49,8 +45,8 @@ module.exports = function(db) {
                         message: "Welcome, " + user.username
                     })
                 }
-            });
 
+            });
 
         },
 
@@ -65,7 +61,6 @@ module.exports = function(db) {
         addUser: function(request, reply) {
 
             var sha1 = require('sha1');
-
             db.User.create({
                 username: request.payload.username,
                 password: sha1(request.payload.password)

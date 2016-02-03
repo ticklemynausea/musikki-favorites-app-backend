@@ -14,8 +14,9 @@ module.exports = function(server, controllers) {
         return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
       })
       .forEach(function(file) {
+        /* no value returned */
         var module = require(path.join(__dirname, file))(server, controllers);
-        modules[module.name] = module;
+        modules[file.slice(0, -3)] = module;
       });
 
     return modules;

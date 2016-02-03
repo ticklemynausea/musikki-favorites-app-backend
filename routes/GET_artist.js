@@ -4,8 +4,8 @@ module.exports = function(server, controllers) {
 
     server.route({
         method: 'GET',
-        path: '/api',
-        handler: controllers.Test.test
+        path: '/artist/{artist}',
+        handler: controllers.Artists.get
     });
 
 };
