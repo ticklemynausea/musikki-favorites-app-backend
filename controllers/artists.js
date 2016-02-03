@@ -25,7 +25,7 @@ module.exports = function(db) {
 
             //TODO: mix with data from our favorites
 
-            var http = require('request');
+            var http = require('request-promise');
             var env = process.env.NODE_ENV || 'development';
             var config = require('../config/config.json')[env];
 
@@ -35,17 +35,12 @@ module.exports = function(db) {
                     appid: config.api.musikki.appid,
                     appkey: config.api.musikki.appkey
                 }
-            }, function(error, response, body) {
+            }).then(function(response) {
 
-                if (error !== null) {
-                    reply({status: 'ko', error: error})
-                    return;
-                }
-
-                var body = JSON.parse(body);
+                var response = JSON.parse(response);
                 var artists = [];
 
-                body.results.forEach(function(obj) {
+                response.results.forEach(function(obj) {
 
                     artists.push({
                         'id': String(obj.mkid),
@@ -68,6 +63,8 @@ module.exports = function(db) {
                     reply(artists);
 
                 })
+            }).catch(function(error) {
+                reply({status: 'ko', error: error});
             });
 
         }
