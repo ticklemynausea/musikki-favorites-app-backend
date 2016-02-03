@@ -1,15 +1,21 @@
 'use strict';
 
-module.exports = {
+module.exports = function(db) {
 
-    name: 'Favorites',
+    var module = {
 
-    addFavorite: function(request, reply) {
+        name: 'Favorites',
 
-    },
+        addFavorite: function(request, reply) {
 
-    removeFavorite: function(request, reply) {
+        },
 
-    }
+        removeFavorite: function(request, reply) {
+
+        }
+
+    };
+
+    return module;
 
 }

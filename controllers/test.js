@@ -1,11 +1,17 @@
 'use strict';
 
-module.exports = {
+module.exports = function(db) {
 
-    name: 'Test',
+    var module = {
 
-    test: function(request, reply) {
-        reply({ 'api' : 'ok' });
-    },
+        name: 'Test',
+
+        test: function(request, reply) {
+            reply({ 'api' : 'ok' });
+        },
+
+    };
+
+    return module;
 
 }

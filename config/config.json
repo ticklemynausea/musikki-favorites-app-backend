@@ -1,6 +1,10 @@
 {
     "development": {
+        "port": "3000",
         "dialect": "sqlite",
-        "storage": "./bin/database.sqlite"
+        "storage": "./bin/database.sqlite",
+        "auth": {
+            "key": "thisKeyGeneratesHashes!!!1yay!!shuddbelonger"
+        }
     }
 }

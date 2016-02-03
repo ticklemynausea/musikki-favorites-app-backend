@@ -1,11 +1,16 @@
 'use strict';
 
-module.exports = {
+module.exports = function(db) {
 
-    name: 'Artists',
+    var module = {
 
-    getArtist: function(request, reply) {
+        name: 'Artists',
 
-    },
+        getArtist: function(request, reply) {
+
+        }
+    }
+
+    return module;
 
 }

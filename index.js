@@ -1,16 +1,48 @@
 'use strict';
-
-var config = require('./config/config.json');
+var env = process.env.NODE_ENV || 'development';
+var config = require('./config/config.json')[env];
 var Hapi = require('hapi');
 
 /* Sequelize db */
 var db = require('./models');
 
-/* Hapi server */
-var server = new Hapi.Server();
-server.connection({ port : 3000 })
+var auth = require('./lib/auth')();
 
-var controllers = require('./controllers');
+/* Hapi server */
+var server = new Hapi.Server({
+    debug: {
+        request: []
+    }
+});
+
+server.connection({ port : config.port })
+
+/* setup auth */
+server.register(require('hapi-auth-jwt2'), function(err) {
+
+    if (err) {
+        console.error('Failed to load plugin:', err);
+    }
+
+    server.auth.strategy('jwt', 'jwt', true, {
+        key: config.auth.key,
+        verifyOptions: {
+            algorithms: ['HS256']
+        },
+        validateFunc: auth.requestValidationFunction
+    });
+
+});
+
+
+
+server.on('response', function (request) {
+
+    console.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.url.path + ' --> ' + request.response.statusCode);
+
+});
+
+var controllers = require('./controllers')(db);
 
 var routes = require('./routes')(server, controllers);
 
