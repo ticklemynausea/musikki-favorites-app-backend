@@ -10,6 +10,11 @@ var Auth = require('./lib/Auth')();
 
 /* Hapi server */
 var server = new Hapi.Server({
+    connections: {
+        routes: {
+            cors: true
+        }
+    },
     debug: {
         request: ['error']
     }

@@ -41,6 +41,7 @@ module.exports = function(db) {
 
                     reply({
                         status: "ok",
+                        username: user.username,
                         auth_token: token,
                         message: "Welcome, " + user.username
                     })
@@ -51,6 +52,8 @@ module.exports = function(db) {
         },
 
         logOut: function(request, reply) {
+
+            reply({ status: "ok" });
 
         },
 

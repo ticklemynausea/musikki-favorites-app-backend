@@ -8,42 +8,97 @@ module.exports = function(db) {
 
         add: function(request, reply) {
 
-            db.Favorite.create({
-                user_id: request.auth.credentials.id,
-                artist_id: request.params.artist_id
-            }).then(function() {
+            var API = require('../lib/API')();
 
-                reply({status:"ok"});
+            API.get('/artists/' + request.params.artist_id).then(function(response) {
 
-            }).catch(function() {
+                var response = JSON.parse(response);
+                ///console.log(response)
+                //reply(response)
 
-                reply({status:"ko"});
+                db.Artist.findOrCreate({
+                    where: {
+                        id: response.result.mkid
+                    },
+                    defaults: {
+                        name: response.result.name,
+                        image_url: response.result.image
+                    }
+                }).spread(function(record, created) {
+
+                    db.Favorite.create({
+                        user_id: request.auth.credentials.id,
+                        artist_id: record.id,
+                        artist_name: record.name,
+                        image_url: record.image_url
+                    }).then(function() {
+
+                        reply({status: 'ok'});
+
+                    }).catch(function(error) {
+
+                        reply({status: 'ko', error: error});
+
+                    });
+
+                    //reply(record)
+
+                }).catch(function(error) {
+
+                    reply({status: 'ko', error: error});
+
+                });
+
+            }).catch(function(error) {
+
+                reply({status: 'ko', error: error});
 
             });
+
+            /*db.Artist.create({
+                mkid: request.params.mkid,
+            })*/
 
         },
 
         remove: function(request, reply) {
 
             db.Favorite.destroy({
+
                 where: {
                     user_id: request.auth.credentials.id,
                     artist_id: request.params.artist_id
                 }
-            }).then(function(what) {
+
+            }).then(function(rows_deleted) {
 
                 if (rows_deleted > 0) {
-                    reply({status:"ok"});
+                    reply({status:'ok'});
                 } else {
-                    reply({status:"ko"});
+                    reply({status:'ko'});
                 }
 
             }).catch(function(error) {
 
-                reply({status:"ko"});
+                reply({status: 'ko', error: error});
 
             });
 
+        },
+
+        get: function(request, reply) {
+
+            db.User.findAll({
+                include: [ db.Artist ],
+                where: {
+                    id: request.auth.credentials.id,
+                }
+
+            }).then(function(data) {
+
+                reply(data);
+
+            })
         }
 
     };

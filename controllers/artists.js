@@ -23,19 +23,9 @@ module.exports = function(db) {
 
             }
 
-            //TODO: mix with data from our favorites
+            var API = require('../lib/API')();
 
-            var http = require('request-promise');
-            var env = process.env.NODE_ENV || 'development';
-            var config = require('../config/config.json')[env];
-
-            http.get({
-                url: config.api.musikki.url + config.api.musikki.endpoints.artist_search.replace('{q}', request.params.artist),
-                headers: {
-                    appid: config.api.musikki.appid,
-                    appkey: config.api.musikki.appkey
-                }
-            }).then(function(response) {
+            API.get('/artists?q=' + request.params.artist).then(function(response) {
 
                 var response = JSON.parse(response);
                 var artists = [];
@@ -44,6 +34,7 @@ module.exports = function(db) {
 
                     artists.push({
                         'id': String(obj.mkid),
+                        'image_url': obj.image_url,
                         'name': obj.name
                     });
 

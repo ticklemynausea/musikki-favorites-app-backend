@@ -27,7 +27,8 @@ module.exports = function(sequelize, DataTypes) {
 
             associate: function(models) {
 
-                User.hasMany(models.Favorite, {
+                User.belongsToMany(models.Artist, {
+                    through: models.Favorite,
                     foreignKey: 'user_id'
                 });
 
