@@ -88,7 +88,7 @@ module.exports = function(db) {
 
         get: function(request, reply) {
 
-            db.User.findAll({
+            db.User.findOne({
                 include: [ db.Artist ],
                 where: {
                     id: request.auth.credentials.id,
@@ -96,7 +96,7 @@ module.exports = function(db) {
 
             }).then(function(data) {
 
-                reply(data);
+                reply(data.Artists);
 
             })
         }

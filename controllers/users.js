@@ -42,6 +42,7 @@ module.exports = function(db) {
                     reply({
                         status: "ok",
                         username: user.username,
+                        email: user.email,
                         auth_token: token,
                         message: "Welcome, " + user.username
                     })
@@ -64,16 +65,18 @@ module.exports = function(db) {
         addUser: function(request, reply) {
 
             var sha1 = require('sha1');
+
             db.User.create({
                 username: request.payload.username,
-                password: sha1(request.payload.password)
-            }).then(function() {
+                password: sha1(request.payload.password),
+                email: request.payload.email
+            }).then(function(user) {
 
-                reply(request.payload);
+                reply(user);
 
-            }).catch(function() {
+            }).catch(function(error) {
 
-                reply({status:"ko"});
+                reply({status:"ko", error: error});
 
             });
 

@@ -39,6 +39,18 @@ server.register(require('hapi-auth-jwt2'), function(err) {
 
 });
 
+/* */
+server.register({
+    register: require('hapi-cors'),
+    options: {
+        origins: ['*']
+    }
+}, function(err) {
+    server.start(function(){
+        console.log(server.info.uri);
+    });
+})
+
 server.on('response', function (request) {
     console.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.url.path + ' --> ' + request.response.statusCode);
 });
