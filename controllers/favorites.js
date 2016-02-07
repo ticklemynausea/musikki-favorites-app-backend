@@ -55,10 +55,6 @@ module.exports = function(db) {
 
             });
 
-            /*db.Artist.create({
-                mkid: request.params.mkid,
-            })*/
-
         },
 
         remove: function(request, reply) {
@@ -92,7 +88,8 @@ module.exports = function(db) {
                 include: [ db.Artist ],
                 where: {
                     id: request.auth.credentials.id,
-                }
+                },
+                order: '`Artists.Favorite`.`updatedAt` DESC',
 
             }).then(function(data) {
 

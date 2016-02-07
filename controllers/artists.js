@@ -34,7 +34,7 @@ module.exports = function(db) {
 
                     artists.push({
                         'id': String(obj.mkid),
-                        'image_url': obj.image_url,
+                        'image_url': obj.image,
                         'name': obj.name
                     });
 
