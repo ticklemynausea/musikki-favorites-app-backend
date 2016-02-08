@@ -59,8 +59,14 @@ var controllers = require('./controllers')(db, Auth);
 
 var routes = require('./routes')(server, controllers);
 
-db.sequelize.sync().then(function() {
+// no need to run sync(), we're on migrations now
+
+/* db.sequelize.sync().then(function() {
     server.start(function() {
         console.log('Running on 3000');
     });
+}); */
+
+server.start(function() {
+    console.log('Running on 3000');
 });
