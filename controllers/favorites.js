@@ -9,28 +9,32 @@ module.exports = function(db) {
         add: function(request, reply) {
 
             var API = require('../lib/API')();
+            var g = require('../lib/Util')().propGet;
 
             API.get('/artists/' + request.params.artist_id).then(function(response) {
 
                 var response = JSON.parse(response);
-                ///console.log(response)
-                //reply(response)
+                var result = response.result;
 
                 db.Artist.findOrCreate({
+
                     where: {
-                        id: response.result.mkid
+                        id: result.mkid
                     },
+
                     defaults: {
-                        name: response.result.name,
-                        image_url: response.result.image
+                        name: g(result, 'name'),
+                        image_url: g(result, 'image'),
+                        country: g(result, 'location.current.country.name'),
+                        start_date: g(result, 'dates.start.year'),
+                        end_date: g(result, 'dates.end.year')
                     }
+
                 }).spread(function(record, created) {
 
                     db.Favorite.create({
                         user_id: request.auth.credentials.id,
-                        artist_id: record.id,
-                        artist_name: record.name,
-                        image_url: record.image_url
+                        artist_id: record.id
                     }).then(function() {
 
                         reply({status: 'ok'});
@@ -40,8 +44,6 @@ module.exports = function(db) {
                         reply({status: 'ko', error: error});
 
                     });
-
-                    //reply(record)
 
                 }).catch(function(error) {
 

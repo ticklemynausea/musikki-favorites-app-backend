@@ -24,18 +24,22 @@ module.exports = function(db) {
             }
 
             var API = require('../lib/API')();
+            var g = require('../lib/Util')().propGet;
 
             API.get('/artists?q=' + request.params.artist).then(function(response) {
 
                 var response = JSON.parse(response);
                 var artists = [];
 
-                response.results.forEach(function(obj) {
+                response.results.forEach(function(result) {
 
                     artists.push({
-                        'id': String(obj.mkid),
-                        'image_url': obj.image,
-                        'name': obj.name
+                        id: String(result.mkid),
+                        name: g(result, 'name'),
+                        image_url: g(result, 'image'),
+                        country: g(result, 'location.current.country.name'),
+                        start_date: g(result, 'dates.start.year'),
+                        end_date: g(result, 'dates.end.year')
                     });
 
                 });

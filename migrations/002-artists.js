@@ -19,6 +19,18 @@ module.exports = {
                 type: Sequelize.STRING
             },
 
+            country: {
+                type: Sequelize.STRING
+            },
+
+            start_date: {
+                type: Sequelize.STRING
+            },
+
+            end_date: {
+                type: Sequelize.STRING
+            },
+
             createdAt: {
                 type: Sequelize.DATE,
                 allowNull: false,

@@ -15,7 +15,19 @@ module.exports = function(sequelize, DataTypes) {
 
         image_url: {
             type: DataTypes.STRING
-        }
+        },
+
+        country: {
+            type: DataTypes.STRING
+        },
+
+        start_date: {
+            type: DataTypes.STRING
+        },
+
+        end_date: {
+            type: DataTypes.STRING
+        },
 
     }, {
 
