@@ -8,17 +8,40 @@ module.exports = function(db) {
 
         get: function(request, reply) {
 
-            var getFavorites = function(user_id, artists) {
+            /* markUserFavoriteArtists
+             * in: user_id, a user's id
+             * in artists: a list of artists
+             * out: a promise that returns the given artists list with favorite attribute
+             */
+            var markUserFavoriteArtists = function(user_id, artists) {
 
-                var favorite_ids = artists.map(function(obj) {
-                    return obj.id;
-                });
+                return new Promise(function(resolve, reject) {
 
-                return db.Favorite.findAll({
-                    where: {
-                        user_id: user_id,
-                        artist_id: favorite_ids
-                    }
+                    var artist_ids = artists.map(function(artist) {
+                        return artist.id;
+                    });
+
+                    db.Favorite.findAll({
+                        attributes: [ 'artist_id' ],
+                        where: {
+                            user_id: user_id,
+                            artist_id: artist_ids
+                        }
+                    }).then(function(favorites) {
+
+                        var favorite_ids = favorites.map(function(favorite) {
+                            return favorite.artist_id;
+                        });
+
+                        var artists_with_favorites = artists.map(function(artist) {
+                            artist.favorite = (favorite_ids.indexOf(artist.id) !== -1);
+                            return artist;
+                        })
+
+                        resolve(artists_with_favorites);
+
+                    });
+
                 });
 
             }
@@ -44,23 +67,13 @@ module.exports = function(db) {
 
                 });
 
-                getFavorites(request.auth.credentials.id, artists).then(function(favorites) {
-
-                    var favorite_ids = favorites.map(function(favorite) {
-                        return favorite.artist_id;
-                    });
-
-                    var artists_with_favorites = artists.forEach(function(artist) {
-                        artist.favorite = (favorite_ids.indexOf(artist.id) !== -1);
-                        return artist;
-                    })
-
-                    reply(artists);
-
+                markUserFavoriteArtists(request.auth.credentials.id, artists).then(function(artists_with_favorites) {
+                    reply(artists_with_favorites);
                 })
 
             }).catch(function(error) {
-                reply({status: 'ko', error: error});
+                reply({status: 'ko'});
+                throw error;
             });
 
         }

@@ -41,19 +41,22 @@ module.exports = function(db) {
 
                     }).catch(function(error) {
 
-                        reply({status: 'ko', error: error});
+                        reply({status: 'ko'});
+                        throw error;
 
                     });
 
                 }).catch(function(error) {
 
-                    reply({status: 'ko', error: error});
+                    reply({status: 'ko'});
+                    throw error;
 
                 });
 
             }).catch(function(error) {
 
-                reply({status: 'ko', error: error});
+                reply({status: 'ko'});
+                throw error;
 
             });
 
@@ -78,7 +81,8 @@ module.exports = function(db) {
 
             }).catch(function(error) {
 
-                reply({status: 'ko', error: error});
+                reply({status: 'ko'});
+                throw error;
 
             });
 
