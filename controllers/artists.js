@@ -72,7 +72,7 @@ module.exports = function(db) {
                 })
 
             }).catch(function(error) {
-                reply({status: 'ko'});
+                reply({status: 'ko'}).code(500);
                 throw error;
             });
 

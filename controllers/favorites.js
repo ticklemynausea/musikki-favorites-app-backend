@@ -41,21 +41,21 @@ module.exports = function(db) {
 
                     }).catch(function(error) {
 
-                        reply({status: 'ko'});
+                        reply({status: 'ko'}).code(500);
                         throw error;
 
                     });
 
                 }).catch(function(error) {
 
-                    reply({status: 'ko'});
+                    reply({status: 'ko'}).code(500);
                     throw error;
 
                 });
 
             }).catch(function(error) {
 
-                reply({status: 'ko'});
+                reply({status: 'ko'}).code(500);
                 throw error;
 
             });
@@ -76,12 +76,12 @@ module.exports = function(db) {
                 if (rows_deleted > 0) {
                     reply({status:'ok'});
                 } else {
-                    reply({status:'ko'});
+                    reply({status:'ko'}).code(500);
                 }
 
             }).catch(function(error) {
 
-                reply({status: 'ko'});
+                reply({status: 'ko'}).code(500);
                 throw error;
 
             });

@@ -20,7 +20,7 @@ var server = new Hapi.Server({
     }
 });
 
-server.connection({ port : config.port })
+server.connection({ port : config.port });
 
 /* setup auth */
 server.register(require('hapi-auth-jwt2'), function(err) {
@@ -49,7 +49,7 @@ server.register({
     server.start(function(){
         console.log(server.info.uri);
     });
-})
+});
 
 server.on('response', function (request) {
     console.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.url.path + ' --> ' + request.response.statusCode);

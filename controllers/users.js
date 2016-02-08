@@ -26,8 +26,8 @@ module.exports = function(db) {
                 if (user === null) {
 
                     reply({
-                        status: "ko"
-                    });
+                        status: 'ko'
+                    }).code(401);
 
                 } else {
 
@@ -40,11 +40,11 @@ module.exports = function(db) {
                     });
 
                     reply({
-                        status: "ok",
+                        status: 'ok',
                         username: user.username,
                         email: user.email,
                         auth_token: token,
-                        message: "Welcome, " + user.username
+                        message: 'Welcome, ' + user.username
                     })
                 }
 
@@ -54,7 +54,7 @@ module.exports = function(db) {
 
         logOut: function(request, reply) {
 
-            reply({ status: "ok" });
+            reply({ status: 'ok' });
 
         },
 
@@ -76,7 +76,7 @@ module.exports = function(db) {
 
             }).catch(function(error) {
 
-                reply({status:"ko", error: error});
+                reply({status:'ko', error: error});
 
             });
 
