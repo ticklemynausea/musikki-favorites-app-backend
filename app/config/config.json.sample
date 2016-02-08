@@ -1,23 +1,17 @@
-/*{
-  "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  }
-}*/
+{
+    "development": {
+        "port": "3000",
+        "dialect": "sqlite",
+        "storage": "./app/bin/database.sqlite",
+        "auth": {
+            "key": "yourauthsignkey"
+        },
+        "api": {
+            "musikki": {
+                "url": "https://music-api.musikki.com/v1",
+                "appid": "yourappid",
+                "appkey": "yourappkey"
+            }
+        }
+    }
+}
