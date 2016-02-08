@@ -13,7 +13,7 @@ module.exports = function(db) {
 
             API.get('/artists/' + request.params.artist_id).then(function(response) {
 
-                var response = JSON.parse(response);
+                response = JSON.parse(response);
                 var result = response.result;
 
                 db.Artist.findOrCreate({
@@ -101,11 +101,11 @@ module.exports = function(db) {
 
                 reply(data.Artists);
 
-            })
+            });
         }
 
     };
 
     return module;
 
-}
+};

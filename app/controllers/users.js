@@ -45,7 +45,7 @@ module.exports = function(db) {
                         email: user.email,
                         auth_token: token,
                         message: 'Welcome, ' + user.username
-                    })
+                    });
                 }
 
             });
@@ -85,4 +85,4 @@ module.exports = function(db) {
 
     return module;
 
-}
+};

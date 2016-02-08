@@ -20,4 +20,4 @@ module.exports = function(db) {
 
     return modules;
 
-}
+};

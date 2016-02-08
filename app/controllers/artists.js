@@ -36,7 +36,7 @@ module.exports = function(db) {
                         var artists_with_favorites = artists.map(function(artist) {
                             artist.favorite = (favorite_ids.indexOf(artist.id) !== -1);
                             return artist;
-                        })
+                        });
 
                         resolve(artists_with_favorites);
 
@@ -44,17 +44,18 @@ module.exports = function(db) {
 
                 });
 
-            }
+            };
 
             var API = require('../lib/API')();
             var g = require('../lib/util')().propGet;
 
             API.get('/artists?q=' + request.params.artist).then(function(response) {
 
-                var response = JSON.parse(response);
+                response = JSON.parse(response);
+                var results = response.results;
                 var artists = [];
 
-                response.results.forEach(function(result) {
+                results.forEach(function(result) {
 
                     artists.push({
                         id: String(result.mkid),
@@ -69,7 +70,7 @@ module.exports = function(db) {
 
                 markUserFavoriteArtists(request.auth.credentials.id, artists).then(function(artists_with_favorites) {
                     reply(artists_with_favorites);
-                })
+                });
 
             }).catch(function(error) {
                 reply({status: 'ko'}).code(500);
@@ -77,8 +78,8 @@ module.exports = function(db) {
             });
 
         }
-    }
+    };
 
     return module;
 
-}
+};
