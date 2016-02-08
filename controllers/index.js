@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(db, Auth) {
+module.exports = function(db) {
 
     var fs = require('fs');
     var path      = require('path');

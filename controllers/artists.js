@@ -58,6 +58,7 @@ module.exports = function(db) {
                     reply(artists);
 
                 })
+
             }).catch(function(error) {
                 reply({status: 'ko', error: error});
             });
