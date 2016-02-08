@@ -4,8 +4,8 @@ module.exports = function(server, controllers) {
 
     server.route({
         method: 'POST',
-        path: '/favorite/add/{artist_id}',
-        handler: controllers.Favorites.add
+        path: '/favorites/remove/{artist_id}',
+        handler: controllers.Favorites.remove
     });
 
 };

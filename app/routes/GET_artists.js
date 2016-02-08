@@ -4,8 +4,8 @@ module.exports = function(server, controllers) {
 
     server.route({
         method: 'GET',
-        path: '/favorite',
-        handler: controllers.Favorites.get
+        path: '/artists/{artist}',
+        handler: controllers.Artists.get
     });
 
 };
