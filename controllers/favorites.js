@@ -9,7 +9,7 @@ module.exports = function(db) {
         add: function(request, reply) {
 
             var API = require('../lib/API')();
-            var g = require('../lib/Util')().propGet;
+            var g = require('../lib/util')().propGet;
 
             API.get('/artists/' + request.params.artist_id).then(function(response) {
 

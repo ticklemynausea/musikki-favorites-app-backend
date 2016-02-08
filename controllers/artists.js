@@ -24,7 +24,7 @@ module.exports = function(db) {
             }
 
             var API = require('../lib/API')();
-            var g = require('../lib/Util')().propGet;
+            var g = require('../lib/util')().propGet;
 
             API.get('/artists?q=' + request.params.artist).then(function(response) {
 
